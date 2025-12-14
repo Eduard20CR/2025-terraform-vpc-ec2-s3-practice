@@ -14,8 +14,6 @@ This project focuses on:
 * Storage (S3)
 * Clean Terraform structure and best practices
 
----
-
 ## Architecture
 
 The infrastructure includes:
@@ -28,8 +26,6 @@ The infrastructure includes:
 
 All resources are managed within a **single Terraform state** to keep the project simple and focused.
 
----
-
 ## Why No Terraform Modules?
 
 This is an intentional design choice.
@@ -41,8 +37,6 @@ Since this is a personal learning project, I chose to:
 * Fully understand dependencies, references, and AWS behavior
 
 Once patterns are repeated or environments multiply, this project can easily evolve into reusable Terraform modules.
-
----
 
 ## Project Structure
 
@@ -59,8 +53,6 @@ Once patterns are repeated or environments multiply, this project can easily evo
 └── README.md
 ```
 
----
-
 ## Key Concepts Practiced
 
 * Infrastructure as Code (IaC)
@@ -69,8 +61,6 @@ Once patterns are repeated or environments multiply, this project can easily evo
 * IAM roles vs credentials
 * Secure EC2 → S3 access
 * Clean and maintainable Terraform layout
-
----
 
 ## How to Use
 
@@ -87,8 +77,6 @@ To destroy all resources:
 ```bash
 terraform destroy
 ```
-
----
 
 ## Future Improvements
 
