@@ -10,20 +10,8 @@ variable "cidr_block" {
   default     = "10.35.0.0/16"
 }
 
-variable "private_subnet_cidrs" {
-  description = "List of CIDR blocks for private subnets"
-  type        = list(string)
-  default     = ["10.35.0.0/18", "10.35.64.0/18"]
-}
-
-variable "public_subnet_cidrs" {
-  description = "List of CIDR blocks for public subnets"
-  type        = list(string)
-  default     = ["10.35.128.0/18", "10.35.192.0/18"]
-}
-
 variable "amount_subnets" {
   description = "Number of subnets to create in each availability zone"
   type        = number
-  default     = 2
+  default     = 6
 }

@@ -9,16 +9,16 @@ resource "aws_subnet" "private_data" {
   count = var.amount_subnets
 
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_subnet_cidrs[count.index]
-  availability_zone = var.availability_zones[count.index]
+  cidr_block        = cidrsubnet(var.cidr_block, 8, count.index)
+  availability_zone = data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.names)]
 }
 
 resource "aws_subnet" "public_web" {
   count = var.amount_subnets
 
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = var.public_subnet_cidrs[count.index]
-  availability_zone       = var.availability_zones[count.index]
+  cidr_block              = cidrsubnet(var.cidr_block, 8, count.index + var.amount_subnets)
+  availability_zone = data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.names)]
   map_public_ip_on_launch = true
 
   assign_ipv6_address_on_creation = true
