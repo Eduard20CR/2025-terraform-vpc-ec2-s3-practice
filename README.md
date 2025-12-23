@@ -4,7 +4,7 @@
 
 This repository contains a hands-on Terraform project where I provision a complete AWS setup using **Infrastructure as Code (IaC)**.
 
-The goal of this project is to **understand how core AWS resources work together**, rather than relying on pre-built modules. Everything is written manually to reinforce fundamentals and real-world reasoning.
+The goal of this project is to **understand how core AWS resources work together**, rather than relying on pre built modules. Everything is written manually to reinforce fundamentals and real world reasoning.
 
 This project focuses on:
 
