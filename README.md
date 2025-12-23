@@ -1,87 +1,79 @@
-# Terraform AWS Infrastructure - VPC + EC2 + S3 (Hands-On Practice)
+# Terraform AWS Infrastructure Practice
 
 ## Overview
 
-This repository contains a hands-on Terraform project where I provision a complete AWS setup using **Infrastructure as Code (IaC)**.
+This repository contains a **hands-on Terraform project** created to **learn and apply Terraform fundamentals and best practices** while provisioning AWS infrastructure using Infrastructure as Code (IaC).
 
-The goal of this project is to **understand how core AWS resources work together**, rather than relying on pre built modules. Everything is written manually to reinforce fundamentals and real world reasoning.
+The goal of this project is to **build a solid understanding of Terraform concepts**, including modules, environments, variables, outputs, and state management, through practical, real-world examples.
 
-This project focuses on:
 
-* Networking (VPC and subnets)
-* Compute (EC2)
-* Security (IAM roles and policies)
-* Storage (S3)
-* Clean Terraform structure and best practices
+## What's Included
 
-## Architecture
+* **VPC** with public and private subnets
+* **EC2** instance deployed inside the VPC
+* **S3** bucket accessed securely from EC2
+* **IAM Role + Instance Profile** (no hardcoded credentials)
+* Security Groups and routing
 
-The infrastructure includes:
+## Terraform Approach
 
-* A custom **VPC** with subnets and routing
-* An **EC2 instance** deployed inside the VPC
-* An **S3 bucket** used by the EC2 instance
-* An **IAM Role + Instance Profile** that allows the EC2 instance to securely access S3 (no hardcoded credentials)
-* Security Groups controlling network access
+* **Modules** contain reusable, environment-agnostic logic
+* **Environments (`dev`, `prod`)** act as root modules
+* Providers and state are defined at the environment level
+* Data sources live where they are used
 
-All resources are managed within a **single Terraform state** to keep the project simple and focused.
-
-## Why No Terraform Modules?
-
-This is an intentional design choice.
-
-Since this is a personal learning project, I chose to:
-
-* Write all resources manually
-* Avoid abstraction early on
-* Fully understand dependencies, references, and AWS behavior
-
-Once patterns are repeated or environments multiply, this project can easily evolve into reusable Terraform modules.
+This structure mirrors how Terraform is used in real teams.
 
 ## Project Structure
 
 ```text
 .
-├── providers.tf     # AWS provider configuration
-├── variables.tf     # Input variables
-├── vpc.tf           # VPC and networking resources
-├── security.tf      # Security groups
-├── iam.tf           # IAM role, policy, and instance profile
-├── s3.tf            # S3 bucket
-├── ec2.tf           # EC2 instance configuration
-├── outputs.tf       # Useful outputs
+├── environments
+│   ├── dev
+│   │   ├── main.tf          # Root module for dev environment
+│   │   ├── variables.tf     # Dev-specific inputs
+│   │   ├── outputs.tf       # Dev outputs
+│   │   ├── providers.tf    # AWS provider configuration
+│   │   └── backend.tf      # (Optional) Remote state configuration
+│   └── prod
+│       ├── main.tf          # Root module for prod environment
+│       ├── variables.tf     # Prod-specific inputs
+│       ├── outputs.tf       # Prod outputs
+│       ├── providers.tf    # AWS provider configuration
+│       └── backend.tf      # (Optional) Remote state configuration
+│
+├── modules
+│   ├── vpc
+│   │   ├── main.tf          # VPC, subnets, routing
+│   │   ├── data.tf          # Availability Zones data source
+│   │   ├── variables.tf    # VPC inputs
+│   │   └── outputs.tf      # VPC outputs
+│   ├── ec2
+│   │   ├── main.tf          # EC2 resources
+│   │   ├── variables.tf    # EC2 inputs
+│   │   └── outputs.tf      # EC2 outputs
+│   └── s3
+│       ├── main.tf          # S3 bucket
+│       ├── variables.tf    # S3 inputs
+│       └── outputs.tf      # S3 outputs
+│
+├── .gitignore
 └── README.md
+
 ```
-
-## Key Concepts Practiced
-
-* Infrastructure as Code (IaC)
-* Terraform state management
-* Resource dependencies and references
-* IAM roles vs credentials
-* Secure EC2 → S3 access
-* Clean and maintainable Terraform layout
 
 ## How to Use
 
-> This project is intended for learning and demonstration purposes.
-
 ```bash
+cd environments/prod
 terraform init
 terraform plan
 terraform apply
 ```
 
-To destroy all resources:
+To destroy resources:
 
 ```bash
 terraform destroy
 ```
 
-## Future Improvements
-
-* Extract the VPC into a reusable Terraform module
-* Add support for multiple environments (dev / prod)
-* Introduce remote state (S3 + DynamoDB or Terraform Cloud)
-* Add an Application Load Balancer (ALB)
-* Replace EC2 with an Auto Scaling Group
