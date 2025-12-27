@@ -7,3 +7,7 @@ module "vpc" {
 module "storage" {
   source = "../../modules/s3"
 }
+
+module "compute" {
+  source = "../../modules/ec2"
+}
