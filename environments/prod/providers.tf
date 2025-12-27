@@ -13,7 +13,8 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project = "learning-terraform"
+      ManagedBy   = "terraform"
+      Environment = "production"
     }
   }
 }

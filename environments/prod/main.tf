@@ -3,3 +3,7 @@ module "vpc" {
   cidr_block     = var.cidr_block
   amount_subnets = var.amount_subnets
 }
+
+module "storage" {
+  source = "../../modules/s3"
+}
