@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 data "aws_ami" "aws_linux" {
   most_recent = true
 
@@ -12,4 +14,9 @@ data "aws_ami" "aws_linux" {
   }
 
   owners = ["137112412989"]
+}
+
+
+data "aws_ec2_managed_prefix_list" "eic" {
+  name = "com.amazonaws.${data.aws_region.current.region}.ec2-instance-connect"
 }

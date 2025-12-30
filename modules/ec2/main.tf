@@ -10,6 +10,7 @@ resource "aws_security_group" "app" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
+    # prefix_list_ids = [data.aws_ec2_managed_prefix_list.eic.id]
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -29,13 +30,24 @@ resource "aws_security_group" "app" {
   }
 }
 
-
 resource "aws_instance" "app" {
-  ami           = data.aws_ami.aws_linux.id
-  instance_type = var.instance_type
-  subnet_id     = var.subnet_publica_id
+  ami                         = data.aws_ami.aws_linux.id
+  instance_type               = var.instance_type
+  subnet_id                   = var.subnet_publica_id
+  vpc_security_group_ids      = [aws_security_group.app.id]
+  associate_public_ip_address = true
 
-  vpc_security_group_ids = [aws_security_group.app.id]
+  user_data = <<-EOF
+    #!/bin/bash
+    set -eux
+
+    dnf update -y
+
+    dnf install -y ec2-instance-connect openssh-server
+
+    systemctl enable sshd
+    systemctl restart sshd
+  EOF
 
   root_block_device {
     volume_size           = 8

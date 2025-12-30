@@ -1,8 +1,7 @@
 resource "aws_vpc" "main" {
-  cidr_block                       = var.cidr_block
-  assign_generated_ipv6_cidr_block = true
-  enable_dns_support               = true
-  enable_dns_hostnames             = true
+  cidr_block           = var.cidr_block
+  enable_dns_support   = true
+  enable_dns_hostnames = true
 }
 
 resource "aws_subnet" "private_data" {
@@ -16,12 +15,10 @@ resource "aws_subnet" "private_data" {
 resource "aws_subnet" "public_web" {
   count = var.amount_subnets
 
-  vpc_id                          = aws_vpc.main.id
-  cidr_block                      = cidrsubnet(var.cidr_block, 8, count.index + var.amount_subnets)
-  availability_zone               = element(data.aws_availability_zones.available.names, count.index)
-  map_public_ip_on_launch         = true
-  assign_ipv6_address_on_creation = true
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.main.ipv6_cidr_block, 8, count.index)
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = cidrsubnet(var.cidr_block, 8, count.index + var.amount_subnets)
+  availability_zone       = element(data.aws_availability_zones.available.names, count.index)
+  map_public_ip_on_launch = true
 }
 
 resource "aws_internet_gateway" "igw" {
@@ -34,11 +31,6 @@ resource "aws_route_table" "public" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
-  }
-
-  route {
-    ipv6_cidr_block = "::/0"
-    gateway_id      = aws_internet_gateway.igw.id
   }
 }
 
