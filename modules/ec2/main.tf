@@ -1,5 +1,3 @@
-
-
 resource "aws_security_group" "app" {
   name        = var.security_group_name
   description = "Security group for EC2 instance"
@@ -10,7 +8,6 @@ resource "aws_security_group" "app" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    # prefix_list_ids = [data.aws_ec2_managed_prefix_list.eic.id]
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -37,17 +34,7 @@ resource "aws_instance" "app" {
   vpc_security_group_ids      = [aws_security_group.app.id]
   associate_public_ip_address = true
 
-  user_data = <<-EOF
-    #!/bin/bash
-    set -eux
-
-    dnf update -y
-
-    dnf install -y ec2-instance-connect openssh-server
-
-    systemctl enable sshd
-    systemctl restart sshd
-  EOF
+  key_name = var.keypair_name
 
   root_block_device {
     volume_size           = 8

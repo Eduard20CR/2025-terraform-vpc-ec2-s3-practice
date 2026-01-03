@@ -26,3 +26,10 @@ variable "subnet_publica_id" {
   description = "The subnet ID to launch the instance in"
   type        = string
 }
+
+
+variable "keypair_name" {
+  description = "The name of the key pair to use for the instance"
+  type        = string
+  default     = "terraform-pratice"
+}
