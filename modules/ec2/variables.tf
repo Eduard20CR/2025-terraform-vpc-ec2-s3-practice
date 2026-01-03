@@ -33,3 +33,9 @@ variable "keypair_name" {
   type        = string
   default     = "terraform-pratice"
 }
+
+
+variable "iam_instance_profile" {
+  description = "The IAM instance profile to associate with the instance"
+  type        = string
+}

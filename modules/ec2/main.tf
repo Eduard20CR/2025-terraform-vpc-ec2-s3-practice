@@ -36,6 +36,8 @@ resource "aws_instance" "app" {
 
   key_name = var.keypair_name
 
+  iam_instance_profile = var.iam_instance_profile
+
   root_block_device {
     volume_size           = 8
     volume_type           = "gp3"

@@ -7,5 +7,5 @@ variable "cidr_block" {
 variable "amount_subnets" {
   description = "Number of subnets to create in each availability zone"
   type        = number
-  default     = 4
+  default     = 1
 }
